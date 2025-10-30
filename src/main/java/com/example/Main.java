@@ -13,7 +13,10 @@ public class Main {
     static void main() {
         Scanner sc = new Scanner(System.in);
         EmployeeDao employeeDao = new EmployeeDaoImpl();
-try {
+       // Start a try block to catch potential exceptions, especially SQLException
+        try {
+            // Start an infinite loop to keep the application running until the user exits
+
     while (true) {
         IO.println("=============== Employee Management System with JDBC ================");
         IO.println(" 1. Add an Employee");
@@ -36,7 +39,9 @@ try {
                 String job = sc.next();
                 IO.print("Enter Employee's salary: ");
                 double sal = sc.nextDouble();
+                // Create a new Employee object and call the DAO to add it
                 boolean addedEmployee = employeeDao.addEmployee(new Employee(empno, ename, job, sal));
+                // Print a success or failure message based on the DAO's response
                 IO.println(addedEmployee ? "An employee has been added!" : "Failed to add the employee.");
             }
 
