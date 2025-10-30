@@ -86,28 +86,52 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public boolean updateEmployee(Employee employee) throws SQLException {
+        // SQL statement to update an existing employee record.
+        // The '?' placeholders prevent SQL Injection and are replaced by parameters below.
+        // The WHERE clause is crucial to ensure only the specified employee is updated.
         String sql = "UPDATE employee SET ename=?, job=?, sal=? WHERE empno=?";
 
+        // Use try-with-resources to automatically close the Connection (con) and
+        // PreparedStatement (ps) even if an exception occurs.
         try (Connection con = DBConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql) )
 
-        {
+        {   // Set the parameters in the prepared statement, binding the new values to the SQL placeholders.
+            // Parameter index 1 corresponds to ename
             ps.setString(1, employee.getEname());
+
+            // Parameter index 2 corresponds to job
             ps.setString(2, employee.getJob());
+
+            // Parameter index 3 corresponds to sal
             ps.setDouble(3, employee.getSal());
+
+            // Parameter index 4 corresponds to empno, used in the WHERE clause to identify the row.
             ps.setInt(4, employee.getEmpno());
+
+            // Execute the update statement. executeUpdate() returns the number of rows affected.
+            // Return true if one or more rows were updated (meaning the employee ID was found), otherwise false.
             return ps.executeUpdate() > 0;
         }
     }
 
     @Override
     public boolean deleteEmployee(int empno) throws SQLException {
+        // SQL statement to delete an employee record.
+        // The WHERE clause with the empno parameter ensures only the specified employee is deleted.
         String sql = "DELETE FROM employee WHERE empno=?";
 
+        // Use try-with-resources to automatically close the Connection (con) and
+        // PreparedStatement (ps) when the try block finishes.
         try (Connection con = DBConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql) )
         {
+            // Set the parameter for the prepared statement.
+            // Parameter index 1 corresponds to empno, used in the WHERE clause.
             ps.setInt(1, empno);
+
+            // Execute the delete statement. executeUpdate() returns the number of rows affected.
+            // Return true if one or more rows were deleted (meaning the employee ID was found), otherwise false.
             return ps.executeUpdate() > 0;
         }
     }
