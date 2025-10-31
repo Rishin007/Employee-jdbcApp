@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDaoImpl implements EmployeeDao {
-    private static Connection con;
 
     @Override
     public boolean addEmployee(Employee employee) {
+        Connection con=null;
         String sql = "INSERT INTO employee (empno, ename, job, sal) VALUES (?, ?, ?, ?)";
         try{
             con= DBConfig.getConnection();
@@ -40,7 +40,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public Employee getEmployeeById(int empno) {
         String sql = "SELECT * FROM employee WHERE empno=?";
-        try (Connection con = DBConfig.getConnection();
+        try ( Connection con = DBConfig.getConnection();
              PreparedStatement ps = con.prepareStatement(sql))
         {
             ps.setInt(1, empno);
